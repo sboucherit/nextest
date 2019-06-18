@@ -4,12 +4,14 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "next",
+    "dev": "node server.js",
     "build": "next build",
-    "start": "next start",
+    "start": "NODE_ENV=production node server.js",
     "link-contracts": "cd lib && ln -s ../../build/contracts contracts"
   },
   "dependencies": {
+    "@universal-login/sdk": "^0.2.1",
+    "express": "^4.17.1",
     "next": "^6.1.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",

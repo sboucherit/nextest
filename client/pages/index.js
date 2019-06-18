@@ -1,10 +1,11 @@
-import React from 'react'
-import Link from 'next/link'
+import React from 'react';
+import Layout from '../components/myLayout.js';
 
-export default () =>
-  <div>
-    <h1>Home</h1>
-    <p>Note that Web3 is not loaded for this page.</p>
-    <div><Link href='/dapp'><a>My Dapp</a></Link></div>
-    <div><Link href='/accounts'><a>My Accounts</a></Link></div>
-  </div>
+const  indexPageContent = <p>Index page</p>;
+
+export default function Index() {
+  return (<Layout>
+    <h1>Index Page</h1>
+  </Layout>
+  );
+}
