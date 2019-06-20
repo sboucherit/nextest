@@ -1,16 +1,30 @@
 import Header from './header';
 
-const layoutStyle = {
-  margin: 20,
-  padding: 20,
-  border: '1px solid #DDD'
-};
 
 const Layout = props => (
-    <div style={layoutStyle}>
+    <div id="genLayout">
 
     <Header />
     {props.children}
+
+    <style jsx global>{`
+    * {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+    #genLayout{
+      margin: 2px;
+      padding: 2px;
+      border: '3px solid black';
+      }
+
+    `}</style>
     </div>
 );
 
