@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 
 const Header = () => (
-    <div>
+    <div id="headerStyle">
         <Link href="/">
             <a>Home</a>
         </Link>
@@ -21,7 +21,12 @@ const Header = () => (
         <style jsx>{`
         h1,
         a {
-          font-family: 'Arial';
+            float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
         }
 
         ul {
@@ -35,11 +40,18 @@ const Header = () => (
 
         a {
           text-decoration: none;
-          color: blue;
+          color: white;
         }
 
         a:hover {
-          opacity: 0.6;
+            background-color: #ddd;
+  color: black;
+        }
+
+        #headerStyle{
+            overflow: hidden;
+            background-color: #333;
+            width: 100%;
         }
       `}</style>
     </div>

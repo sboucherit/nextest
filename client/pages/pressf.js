@@ -25,8 +25,7 @@ const DUMMY_DATA = [
 export default function Pressf() {
     return (
       <Layout>
-        <h1>This is the PressF page</h1>
-
+       
         <ChatBox/>
 
         <MesssageBox/>

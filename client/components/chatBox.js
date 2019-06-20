@@ -1,15 +1,14 @@
 const ChatBox = () => (
 
-    <div id="rcorners">
+    <div id="chatBoxStyle">
         <p>ChatBox</p>
 
     <style jsx>{`
-    #rcorners{
-  border-radius: 25px;
-  border: 2px solid blue;
-  padding: 20px; 
-  width: 95%;
-  height: 90%; 
+    #chatBoxStyle{
+        background-color: #ddd;
+  padding: 1rem;
+  height: 70vh;
+  width: 100%;
 }
     `}</style>
     </div>

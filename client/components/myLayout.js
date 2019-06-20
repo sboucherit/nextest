@@ -2,7 +2,7 @@ import Header from './header';
 
 
 const Layout = props => (
-    <div id="genLayout">
+    <div>
 
     <Header />
     {props.children}
@@ -14,15 +14,11 @@ const Layout = props => (
   }
   
   body {
-  margin: 0;
+  margin: 3px;
   font-family: Arial, Helvetica, sans-serif;
+  height: auto;
 }
 
-    #genLayout{
-      margin: 2px;
-      padding: 2px;
-      border: '3px solid black';
-      }
 
     `}</style>
     </div>

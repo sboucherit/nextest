@@ -5,18 +5,18 @@
     padding: '10px'
 };
  */
+
 const MesssageBox = () => (
 
-    <div id="rcorners">
+    <div id="msgBoxStyle">
         <p>MessageBox</p>
 
     <style jsx>{`
-    #rcorners{
-  border-radius: 25px;
-  border: 2px solid #73AD21;
-  padding: 20px; 
-  width: 95%;
-  height: 50px; 
+    #msgBoxStyle{
+    background-color: #f1f1f1;
+    padding: 1rem;
+    width: 100%;
+    height: 10vh;
 }
     `}</style>
     </div>
