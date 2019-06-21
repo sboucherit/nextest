@@ -21,6 +21,8 @@ class MesssageBox extends React.Component {
 
     handleSubmit(event) {
         alert('A message was sent: ' + this.state.message);
+        console.log('handleSubmit child : ' + this.state.message);
+        this.props.onNewMessage(this.state.message);
         event.preventDefault();
     }
 

@@ -11,24 +11,37 @@ import ChatBox from '../components/chatBox';
 } */
 
 class PressfPage extends React.Component{
-state = {
-  message: ''
-  //message: this.state.message
+constructor(props) {
+  super(props)
+  this.state = {
+    newMessage: ''
+    //message: this.state.message
+
 };
 
+}
 
-export default function Pressf() {
+handleNewMessage = (messageValue) => {
+  this.setState({newMessage: messageValue});
+  console.log("le parent message :" + this.state.newMessage);
+}
+
+
+
+  render() {
     return (
       <Layout>
        
         <ChatBox/>
 
-        <MesssageBox/>
+        <MesssageBox onNewMessage={this.handleNewMessage}/>
 
       </Layout> 
-    ) 
-} 
+    );
+  }
+}
 
+  export default PressfPage;
 
 /* 
 
@@ -72,3 +85,41 @@ return (
 <Layout content={pressfPageContent} />
 )    
 } */
+
+
+
+/* APRES :
+
+class PressfPage extends React.Component{
+constructor(props) {
+  super(props)
+  this.state = {
+    message: ''
+    //message: this.state.message
+
+};
+
+}
+
+handleMessage = (messageValue) => {
+  this.setState({message: messageValue});
+}
+
+
+
+  render() {
+    return (
+      <Layout>
+       
+        <ChatBox/>
+
+        <MesssageBox/>
+
+      </Layout> 
+    );
+  }
+}
+
+  export default Pressf;
+
+*/
