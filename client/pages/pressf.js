@@ -4,22 +4,17 @@ import MesssageBox from '../components/messageBox';
 import ChatBox from '../components/chatBox';
 
 
-function PressfPageContent() {
+/* function PressfPageContent() {
     <div>
         <h1>PressF Welcome page</h1>
     </div>
-}
+} */
 
-const DUMMY_DATA = [
-  {
-    senderId: "perborgen",
-    text: "who'll win?"
-  },
-  {
-    senderId: "janedoe",
-    text: "who'll win?"
-  }
-]
+class PressfPage extends React.Component{
+state = {
+  message: ''
+  //message: this.state.message
+};
 
 
 export default function Pressf() {

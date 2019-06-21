@@ -6,21 +6,48 @@
 };
  */
 
-const MesssageBox = () => (
+class MesssageBox extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {message: ''};
 
-    <div id="msgBoxStyle">
-        <p>MessageBox</p>
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
 
-    <style jsx>{`
-    #msgBoxStyle{
-    background-color: #f1f1f1;
-    padding: 1rem;
-    width: 100%;
-    height: 10vh;
+    handleChange(event) {
+        this.setState({ message: event.target.value });
+    }
+
+    handleSubmit(event) {
+        alert('A message was sent: ' + this.state.message);
+        event.preventDefault();
+    }
+
+    render() {
+        return (
+            <div id="msgBoxStyle">
+                <form onSubmit={this.handleSubmit}>
+                    <label>
+                        Message :
+                        <textarea value={this.state.value} onChange={this.handleChange} />
+                    </label>
+                    <input type="submit" value="Submit" />
+                </form>
+
+                <style jsx>{`
+                    #msgBoxStyle{
+                    background-color: #f1f1f1;
+                    padding: 1rem;
+                    width: 100%;
+                    height: 10vh;
+                    }
+                `}</style>
+            </div>
+        );
+    }
+
 }
-    `}</style>
-    </div>
-);
 
 export default MesssageBox;
 
