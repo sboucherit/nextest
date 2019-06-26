@@ -9,5 +9,4 @@ event NewMessage(string _message, address _msgAddress);
 function setmessage(string memory _message) public returns (address){
     emit NewMessage(_message, msg.sender);
     }
-
 }

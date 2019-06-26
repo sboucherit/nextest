@@ -1,49 +1,76 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Layout from '../components/myLayout.js';
+import MesssageBox from '../components/messageBox';
+import ChatBox from '../components/chatBox';
+
+const PressfPage = () => {
+  const [newMessage, setNewMessage] = useState("");
+
+  const handleNewMessage = (newMessage) => {
+    setNewMessage(newMessage);
+    console.log("le parent message :" + newMessage);
+    // alert('A message was sent: ' + newMessage);
+  }
+
+  return (
+    <Layout>
+      <ChatBox/>
+      <MesssageBox 
+        onNewMessage={handleNewMessage}
+        newMessage={newMessage}
+        setNewMessage={setNewMessage}
+      />
+    </Layout> 
+  );
+}
+
+export default PressfPage;
+
+/* AVANT le grand genie :
+
+
+
+import React, { useState, forwardRef,useRef, useImperativeHandle } from 'react';
 import Layout from '../components/myLayout.js';
 import MesssageBox from '../components/messageBox';
 import ChatBox from '../components/chatBox';
 
 
-/* function PressfPageContent() {
-    <div>
-        <h1>PressF Welcome page</h1>
-    </div>
-} */
 
-class PressfPage extends React.Component{
-constructor(props) {
-  super(props)
-  this.state = {
-    newMessage: ''
-    //message: this.state.message
+const [newMessage, setNewMessage] = useState('');
 
-};
+
+const handleNewMessage = (newMessage) => {
+  setNewMessage(newMessage);
+  console.log("le parent message :" + newMessage);
+  alert('A message was sent: ' + newMessage);
 
 }
 
-handleNewMessage = (messageValue) => {
-  this.setState({newMessage: messageValue});
-  console.log("le parent message :" + this.state.newMessage);
-}
 
 
-
-  render() {
+  //render() {
     return (
       <Layout>
        
         <ChatBox/>
 
-        <MesssageBox onNewMessage={this.handleNewMessage}/>
+        <MesssageBox onNewMessage={handleNewMessage} newMessage={newMessage}/>
 
       </Layout> 
     );
-  }
+  //}
 }
 
   export default PressfPage;
 
-/* 
+
+
+
+
+FIN Grand genie
+
+  ==============================
 
 Style :
 
@@ -84,42 +111,44 @@ return (
 
 <Layout content={pressfPageContent} />
 )    
-} */
+}
 
 
 
-/* APRES :
+APRES :
 
-class PressfPage extends React.Component{
+const PressfPage = () => {
 constructor(props) {
   super(props)
   this.state = {
-    message: ''
-    //message: this.state.message
+    newMessage: '',
+  };
 
-};
+} 
 
+const [newMessage, setNewMessage];
+
+
+const handleNewMessage = (messageValue) => {
+  setNewMessage({newMessage});
+  console.log("le parent message :" + newMessage);
 }
 
-handleMessage = (messageValue) => {
-  this.setState({message: messageValue});
-}
 
 
-
-  render() {
+  //render() {
     return (
       <Layout>
        
         <ChatBox/>
 
-        <MesssageBox/>
+        <MesssageBox onNewMessage={handleNewMessage}/>
 
       </Layout> 
     );
-  }
+  //}
 }
 
-  export default Pressf;
+  export default PressfPage;
 
 */

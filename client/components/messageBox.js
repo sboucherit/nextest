@@ -1,10 +1,98 @@
-/* const messageBoxStyle = {
-    margin-bottom: 10,
-    border: '3px solid blue',
-    background-color: '#f1f1f1',
-    padding: '10px'
-};
- */
+import React from 'react';
+
+const MesssageBox = (props) => {
+    
+  const handleSubmit = () => {
+    // Do something
+    console.log('child message : ' + props.newMessage);
+    //onNewMessage(props.newMessage);
+    //props.setNewMessage(props.newMessage);
+    props.onNewMessage(props.newMessage);
+    event.preventDefault();
+  };
+
+
+
+    return (
+    <div id="msgBoxStyle">
+      <form onSubmit={handleSubmit}>
+        <label>
+          Message :
+          <textarea value={props.newMessage} onChange={e => props.setNewMessage(e.target.value)} />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
+
+      <style jsx>{`
+        #msgBoxStyle{
+        background-color: #f1f1f1;
+        padding: 1rem;
+        width: 100%;
+        height: 10vh;
+        }
+      `}</style>
+    </div>
+  );
+}
+
+export default MesssageBox;
+
+
+/* 
+AVANT hisztendahl :
+
+
+import React, { useState } from 'react';
+
+
+const MesssageBox = (props) => {
+
+
+    //const [message, setMessage] = useState('');
+    const handleChange = event => event.target.value;
+
+    const handleSubmit = () => {
+
+        onNewMessage(props.newMessage);
+        event.preventDefault();
+    }
+
+    //render() remove
+        return (
+            <div id="msgBoxStyle">
+                <form onSubmit={handleSubmit}>
+                    <label>
+                        Message :
+                        <textarea value={newMessage} onChange={handleChange} />
+                    </label>
+                    <input type="submit" value="Submit" />
+                </form>
+
+                <style jsx>{`
+                    #msgBoxStyle{
+                    background-color: #f1f1f1;
+                    padding: 1rem;
+                    width: 100%;
+                    height: 10vh;
+                    }
+                `}</style>
+            </div>
+        );
+
+}
+
+export default MesssageBox;
+
+
+
+
+
+
+
+
+
+
+AVANT HOOKS :
 
 class MesssageBox extends React.Component {
     constructor(props) {
@@ -52,13 +140,5 @@ class MesssageBox extends React.Component {
 }
 
 export default MesssageBox;
-
-
-
-/* const chatBoxStyle = {
-    margin: 10,
-    padding: 10,
-    border: '2px solid black'
-  };
 
    */
