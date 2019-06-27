@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Layout from '../components/myLayout.js';
 import MesssageBox from '../components/messageBox';
 import ChatBox from '../components/chatBox';
-import Web3Container from '../lib/Web3Container'
+import Web3Container from '../lib/Web3Container';
 
 
 const PressfPage = () => {
@@ -12,22 +12,33 @@ const PressfPage = () => {
     setNewMessage(newMessage);
     console.log("le parent message :" + newMessage);
     // alert('A message was sent: ' + newMessage);
-
   }
 
   return (
-    <Layout>
-      <ChatBox/>
-      <MesssageBox 
-        onNewMessage={handleNewMessage}
-        newMessage={newMessage}
-        setNewMessage={setNewMessage}
-      />
-    </Layout> 
+  
+      <Layout>
+          <ChatBox />
+          <MesssageBox
+          onNewMessage={handleNewMessage}
+          newMessage={newMessage}
+          setNewMessage={setNewMessage}
+          />
+      </Layout>
+
   );
 }
 
-export default PressfPage;
+
+export default () => (
+  <PressfPage>
+  <Web3Container
+    renderLoading={() => <div>Loading Accounts Page...</div>}
+    render={({ accounts }) => <Accounts accounts={accounts} />}
+  />
+  </PressfPage>
+)
+
+//export default PressfPage;
 
 /* AVANT le grand genie :
 
@@ -55,12 +66,12 @@ const handleNewMessage = (newMessage) => {
   //render() {
     return (
       <Layout>
-       
+
         <ChatBox/>
 
         <MesssageBox onNewMessage={handleNewMessage} newMessage={newMessage}/>
 
-      </Layout> 
+      </Layout>
     );
   //}
 }
@@ -113,7 +124,7 @@ export default function Pressf() {
 return (
 
 <Layout content={pressfPageContent} />
-)    
+)
 }
 
 
@@ -127,7 +138,7 @@ constructor(props) {
     newMessage: '',
   };
 
-} 
+}
 
 const [newMessage, setNewMessage];
 
@@ -142,12 +153,12 @@ const handleNewMessage = (messageValue) => {
   //render() {
     return (
       <Layout>
-       
+
         <ChatBox/>
 
         <MesssageBox onNewMessage={handleNewMessage}/>
 
-      </Layout> 
+      </Layout>
     );
   //}
 }
