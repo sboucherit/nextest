@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import Layout from '../components/myLayout.js';
 import MesssageBox from '../components/messageBox';
 import ChatBox from '../components/chatBox';
+import Web3Container from '../lib/Web3Container'
+
 
 const PressfPage = () => {
   const [newMessage, setNewMessage] = useState("");
@@ -10,6 +12,7 @@ const PressfPage = () => {
     setNewMessage(newMessage);
     console.log("le parent message :" + newMessage);
     // alert('A message was sent: ' + newMessage);
+
   }
 
   return (
