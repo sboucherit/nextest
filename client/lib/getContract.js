@@ -11,4 +11,4 @@ const getContractInstance = async (web3, contractDefinition) => {
   return instance
 }
 
-export default getContractInstance
+export default getContractInstance;
