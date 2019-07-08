@@ -13,7 +13,7 @@ import Web3 from 'web3';
 //const web3 = new Web3('http://localhost:7545');
 let web3;
 
-console.log('ici la new abi : ', abi);
+
 
 if (typeof window !== 'undefined' && typeof window.web3 !== 'undefined') {
   // We are in the browser and metamask is running.
@@ -32,240 +32,172 @@ if (typeof window !== 'undefined' && typeof window.web3 !== 'undefined') {
 }
 
 
-// ABI :
-
-
-
-const abi =[
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "message",
-				"type": "string"
-			}
-		],
-		"name": "setmessage",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address"
-			}
-		],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"name": "message",
-				"type": "string"
-			},
-			{
-				"indexed": false,
-				"name": "msgAddress",
-				"type": "address"
-			}
-		],
-		"name": "newMessage",
-		"type": "event"
-	}
-]
-
-const contractAddress = '0xa14555fa51668f63e82c3c8716da6c3001477cbd';
-
-
-
 
 //Beware things are hardcoded :
 
 const PressfPage = () => {
 
+  // HARDCODED ABI :
+
+
+
+let abi = [
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "message",
+        "type": "string"
+      }
+    ],
+    "name": "setmessage",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "message",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "name": "msgAddress",
+        "type": "address"
+      }
+    ],
+    "name": "newMessage",
+    "type": "event"
+  }
+]
+
+//HARDCODED CONTRACT ADDRESS
+0xe80F72a6564e2015Fe51Ce03D15f189BABf4dEa2
+//const contractAddress = '0xa14555fa51668f63e82c3c8716da6c3001477cbd';
+//const contractAddress = '0x75E926820d740537F7377785452b9800892370f1';
+const contractAddress = '0xe80F72a6564e2015Fe51Ce03D15f189BABf4dEa2';
 
   const [newMessage, setNewMessage] = useState("");
 
-  const handleNewMessage = (newMessage) => {
+  const handleNewMessage = async (newMessage) => {
     setNewMessage(newMessage);
 
 
-//fin gestion web3
-
-const contract = new web3.eth.Contract(abi, contractAddress);
-
-    const accounts = web3.eth.getAccounts();
-    console.log("les accounts : ", contract.methods);
+    const contract = await new web3.eth.Contract(abi, contractAddress);
 
 
-    console.log("le parent message :" + newMessage);
-    console.log("le contrat : ", contract);
+      const accounts = await web3.eth.getAccounts();
+    
+    console.log('ABI : ', abi);
+    console.log("Account 0 : ", accounts[0]);
+    console.log("contrac.method : ", contract.methods);
+    console.log("parent message :" + newMessage);
+    console.log("contrat : ", contract);
+    console.log("contract address : ", contractAddress, "fin du log puis on tate les events");
 
-    console.log("abi : ", abi, "add : ", contractAddress, "fin du log puis on tate les events");
 
+    //We call the EVENT here :
+
+
+    try {
+      await contract.methods.setmessage(newMessage).send({
+        from: accounts[0]
+      });
+    } catch (e) {
+      console.log("event not emmited : ", e);
+    }
+
+
+      //Get past events :
     contract.getPastEvents(
       'allEvents',
       {
         fromBlock: 0,
-        toBlock: 'latest' 
+        toBlock: 'latest'
       },
-      (err, events) => { console.log(events.length ) }
+      (err, events) => { console.log("event length : ", events.length) }
     )
 
 
-    //ICI ON CALL L'EVENT :
-
-
-contract.setmessage(newMessage).send({
-      from: accounts[0]
-  });
 
     //contract.setmessage(newMessage);
     // alert('A message was sent: ' + newMessage);
   }
 
+  //END OF HANDLE NEW_MESSAGE
+
   return (
-  
-      <Layout>
-          <ChatBox />
-          <MesssageBox
-          onNewMessage={handleNewMessage}
-          newMessage={newMessage}
-          setNewMessage={setNewMessage}
-          />
-      </Layout>
+
+    <Layout>
+      <ChatBox />
+      <MesssageBox
+        onNewMessage={handleNewMessage}
+        newMessage={newMessage}
+        setNewMessage={setNewMessage}
+      />
+    </Layout>
   );
 }
 
 
 export default PressfPage;
 
-//export default PressfPage;
 
-/* AVANT le grand genie :
+//GANACHE SETUP :
 
+  // HARDCODED ABI :
 
+/*
 
-import React, { useState, forwardRef,useRef, useImperativeHandle } from 'react';
-import Layout from '../components/myLayout.js';
-import MesssageBox from '../components/messageBox';
-import ChatBox from '../components/chatBox';
-
-
-
-const [newMessage, setNewMessage] = useState('');
-
-
-const handleNewMessage = (newMessage) => {
-  setNewMessage(newMessage);
-  console.log("le parent message :" + newMessage);
-  alert('A message was sent: ' + newMessage);
-
-}
-
-
-
-  //render() {
-    return (
-      <Layout>
-
-        <ChatBox/>
-
-        <MesssageBox onNewMessage={handleNewMessage} newMessage={newMessage}/>
-
-      </Layout>
-    );
-  //}
-}
-
-  export default PressfPage;
-
-
-
-
-
-FIN Grand genie
-
-  ==============================
-
-Style :
-
-        <style jsx>{`
-        h1,
-        a {
-          font-family: 'Arial';
+  let abi = [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "message",
+          "type": "string"
         }
-
-        ul {
-          padding: 0;
+      ],
+      "name": "setmessage",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
         }
-
-        li {
-          list-style: none;
-          margin: 5px 0;
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "message",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "name": "msgAddress",
+          "type": "address"
         }
-
-        a {
-          text-decoration: none;
-          color: blue;
-        }
-
-        a:hover {
-          opacity: 0.6;
-        }
-      `}</style>
-
-
-
-
-============================================
-Vieux :
-
-
-export default function Pressf() {
-return (
-
-<Layout content={pressfPageContent} />
-)
-}
-
-
-
-APRES :
-
-const PressfPage = () => {
-constructor(props) {
-  super(props)
-  this.state = {
-    newMessage: '',
-  };
-
-}
-
-const [newMessage, setNewMessage];
-
-
-const handleNewMessage = (messageValue) => {
-  setNewMessage({newMessage});
-  console.log("le parent message :" + newMessage);
-}
-
-
-
-  //render() {
-    return (
-      <Layout>
-
-        <ChatBox/>
-
-        <MesssageBox onNewMessage={handleNewMessage}/>
-
-      </Layout>
-    );
-  //}
-}
-
-  export default PressfPage;
-
-*/
+      ],
+      "name": "newMessage",
+      "type": "event"
+    }
+  ]
+  
+  //HARDCODED CONTRACT ADDRESS
+  const contractAddress = '0xa14555fa51668f63e82c3c8716da6c3001477cbd';
+  
+  */
