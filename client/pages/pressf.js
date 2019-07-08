@@ -87,6 +87,7 @@ let abi = [
 const contractAddress = '0xe80F72a6564e2015Fe51Ce03D15f189BABf4dEa2';
 
   const [newMessage, setNewMessage] = useState("");
+  let currentChatLog = [];
 
   const handleNewMessage = async (newMessage) => {
     setNewMessage(newMessage);
@@ -97,12 +98,12 @@ const contractAddress = '0xe80F72a6564e2015Fe51Ce03D15f189BABf4dEa2';
 
       const accounts = await web3.eth.getAccounts();
     
-    console.log('ABI : ', abi);
-    console.log("Account 0 : ", accounts[0]);
-    console.log("contrac.method : ", contract.methods);
-    console.log("parent message :" + newMessage);
-    console.log("contrat : ", contract);
-    console.log("contract address : ", contractAddress, "fin du log puis on tate les events");
+    //console.log('ABI : ', abi);
+    //console.log("Account 0 : ", accounts[0]);
+    //console.log("contrac.method : ", contract.methods);
+    //console.log("parent message :" + newMessage);
+    //console.log("contrat : ", contract);
+    //console.log("contract address : ", contractAddress, "fin du log puis on tate les events");
 
 
     //We call the EVENT here :
@@ -118,14 +119,53 @@ const contractAddress = '0xe80F72a6564e2015Fe51Ce03D15f189BABf4dEa2';
 
 
       //Get past events :
-    contract.getPastEvents(
+    await contract.getPastEvents(
       'allEvents',
       {
         fromBlock: 0,
         toBlock: 'latest'
-      },
-      (err, events) => { console.log("event length : ", events.length) }
-    )
+      })
+      .then(events => {
+        console.log("event length : ", events.length)
+      })
+      .catch((err) => console.log(err));
+
+
+
+
+
+      const subscription = await web3.eth.subscribe('logs', {
+        fromBlock: 0
+      }, (error, result) => {
+          if (!error) {
+            console.log("le resultat de la subscription : ", result);
+          }else{
+            console.error("l'erreur : ", error);
+          }
+      })
+      .on("data", (log) => {
+        console.log("le log des nouvelles data de la subscription : ", log);
+        console.log("ok la on va parser : ", JSON.stringify(accounts, null, 4), "GROBEL", web3.utils.hexToAscii(log.data));
+        messageSender = JSON.stringify(accounts, null, 4);
+        currentChatLog.push(JSON.stringify(accounts, null, 4), newMessage);
+        //currentChatLog.push[(newMessage)];
+      })
+
+      console.log("les logs du chat : ", currentChatLog);
+
+      //subscription;
+
+      //get all Event :
+/*       contract.events.allEvents()
+      .on('data', (event) => {
+        console.log("resultat des events : ", event);
+        for(let i=0; i < event.length; i++){
+          console.log("le all events : ", allEvents[i]["args"])
+        }
+      })
+      .on('error', console.error);
+ */
+
 
 
 
