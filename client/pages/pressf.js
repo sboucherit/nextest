@@ -32,11 +32,12 @@ if (typeof window !== 'undefined' && typeof window.web3 !== 'undefined') {
   web3 = new Web3(provider);
 }
 
+
 //------------------------- END OF WEB3JS INITALIZATION -------------------------\\
 
 
-let chatMsgLog;
-let currentChatLog = [];
+
+
 
 //------------------------- EVENT SUBSCRIPTION -------------------------\\
 
@@ -47,15 +48,21 @@ const subscription = web3.eth.subscribe('logs', {
     // console.log("le resultat de la subscription : ", result);
     console.log("subscription passed");
     console.log("ID de la subscription : ", result.id)
+    
   } else {
     console.error("l'erreur : ", error);
   }
 })
   .on("data", (log) => {
 
-    console.log("APPEL 1 FOIS")
+
+    console.log("APPEL 1 FOIS");
+    
+
+    getAllMessages(log);
 
     //TMP OUT :
+ 
     /*      
     console.log("le log des nouvelles data de la subscription : ", log);
       console.log("ok la on va parser : ", JSON.stringify(accounts, null, 4), "GROBEL", web3.utils.hexToAscii(log.data));
@@ -76,12 +83,31 @@ const subscription = web3.eth.subscribe('logs', {
   })
 
 
+    //------------------------- GET ALL MESSAGES V2 -------------------------\\
+    const getAllMessages = async (log) => {
+      const accounts = await web3.eth.getAccounts();
+      console.log("le log des nouvelles data de la subscription : ", log);
+      console.log("ok la on va parser : ", JSON.stringify(accounts, null, 4), "GROBEL", web3.utils.hexToAscii(log.data));
+    
+      messageSender = JSON.stringify(accounts, null, 4);
+      chatMsgLog = web3.utils.hexToAscii(log.data);
 
+      setChatMsgLog(chatMsgLog);
+      setMessageSender(messageSender);
+    
+    
+    }
 
 
 //Beware things are hardcoded :
 
 const PressfPage = () => {
+
+
+  let [newMessage, setNewMessage] = useState("");
+  let [messageSender, setMessageSender] = useState("");
+  let [chatMsgLog, setChatMsgLog] = useState("");
+
 
   //------------------------- HARDCODED ABI -------------------------\\
 
@@ -129,9 +155,6 @@ const PressfPage = () => {
 
   const contractAddress = '0xe80F72a6564e2015Fe51Ce03D15f189BABf4dEa2';
 
-  let [newMessage, setNewMessage] = useState("");
-  let [chatHistory, setChatHistory] = useState("");
-
   let nbEvent;
 
 
@@ -165,16 +188,8 @@ const PressfPage = () => {
 
   //END OF HANDLE NEW_MESSAGE
 
-    //------------------------- GET ALL MESSAGES V2 -------------------------\\
-const getAllMessages = async (contract, accounts) => {
-  console.log("le log des nouvelles data de la subscription : ", log);
-  console.log("ok la on va parser : ", JSON.stringify(accounts, null, 4), "GROBEL", web3.utils.hexToAscii(log.data));
-
-  messageSender = JSON.stringify(accounts, null, 4);
-chatMsgLog = web3.utils.hexToAscii(log.data);
 
 
-}
 
 
   //------------------------- GET ALL MESSAGES V1 -------------------------\\
@@ -220,7 +235,10 @@ chatMsgLog = web3.utils.hexToAscii(log.data);
   return (
 
     <Layout>
-      <ChatBox />
+      <ChatBox 
+        chatMsgLog={chatMsgLog}
+        messageSender={messageSender}
+      />
       <MesssageBox
         onNewMessage={handleNewMessage}
         newMessage={newMessage}
@@ -230,5 +248,7 @@ chatMsgLog = web3.utils.hexToAscii(log.data);
   );
 }
 
+
+    
 
 export default PressfPage;

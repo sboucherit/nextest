@@ -1,4 +1,4 @@
-const ChatBox = () => (
+const ChatBox = (props) => (
 
     <div id="chatBoxStyle">
         <p>ChatBox</p>
