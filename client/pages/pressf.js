@@ -19,10 +19,10 @@ const PressfPage = async () => {
   let [contract, setContract] = useState("");
 
   let contractdata =  await ContractInstance();
-  
-  setWeb3(contractdata.web3)
-  setAccounts(contractdata.accounts)
-  setContract(contractdata.contract)
+
+  setWeb3(contractdata.web3);
+  setAccounts(contractdata.accounts);
+  setContract(contractdata.contract);
 
 //---------------------- HANDLE NEW MESSAGE -------------------------\\
 
