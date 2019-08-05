@@ -12,7 +12,6 @@ const MesssageBox = (props) => {
   };
 
 
-
     return (
     <div id="msgBoxStyle">
       <form onSubmit={handleSubmit}>
