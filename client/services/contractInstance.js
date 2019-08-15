@@ -43,21 +43,19 @@ let abi = [
 ];
  
 //HARDOCED CONTRACT ADDRESS
-const contractAddress = "0xe80F72a6564e2015Fe51Ce03D15f189BABf4dEa2";
+const contractAddress = "0xb73218D6612cA6b4c90e08Cd31b7a1B19C183153";
 
 let web3, accounts, contract;
 
 
 export const loadContract = async () => {
   try {
+
     web3 = await getWeb3();
     accounts = await web3.eth.getAccounts();
  
     contract = await new web3.eth.Contract(abi, contractAddress);
-    /*
-          await setWeb3(web3);
-          await setAccounts(accounts);
-          await setContract(contract); */
+
     console.log(
       "contractInstance web3 :",
       web3,
@@ -74,7 +72,3 @@ export const loadContract = async () => {
     console.log(error);
   }
 };
- 
-/* props.setWeb3(await getWeb3());
-props.setAccounts(await web3.eth.getAccounts());
-props.setContract(await web3.eth.Contract(abi, contractAddress)); */

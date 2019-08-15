@@ -1,80 +1,96 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Layout from '../components/myLayout.js';
 import MesssageBox from '../components/messageBox';
 import ChatBox from '../components/chatBox';
-import Web3 from 'web3';
-import {loadContract, web3, accounts, contract} from '../services/contractInstance';
+import {loadContract, accounts, contract} from '../services/contractInstance';
 
-
-//------------------------- END OF WEB3JS INITALIZATION -------------------------\\
-
-
-
-const PressfPage = () => {
-
-  //hook variables initialization
-  let contractdata;
-  let [newMessage, setNewMessage] = useState("");
-/*   let [web3, setWeb3] = useState("");
-  let [accounts, setAccounts] = useState("");
-  let [contract, setContract] = useState(""); */
 
 
   //Get contract data from contractInstance
   const getContract = async () => {
     try {
-      contractdata = await loadContract();
-      console.log("getContract call successfull ", contractdata);
-      //return loadContract();
-      console.log("web3 : ", web3, "accounts : ", accounts, "contract : ", contract);
+      await loadContract();
     }
     catch(err) {
       console.log("getContract call error : ", err);
     }
   }
 
-  contractdata = getContract();
+
+  let chatMsgObj = {
+    msgObj: "",
+    addrObj: ""
+  };
+
+
   
-  //setWeb3(contractdata.web3);
-  //setAccounts(contractdata.accounts);
-  //setContract(contractdata.contract);
+const PressfPage = () => {
 
 
+
+  //hook initialization
+
+  let [newMessage, setNewMessage] = useState("");
+  let [chatHistory, setChatHistory] = useState([]);
+
+
+useEffect(() => {
+  getContract();
+}, []);
+
+
+  //Cette partie  pourrait etre en dehors de handleNewMessage ?
+
+  //getEvent and build chat history
+  const getEvent = () => {
+
+//avant :
+// contract.once('NewMessage', function(error, event){
+    contract.once('NewMessage', {
+      filter: []
+    }, function(error, event){
+
+      chatMsgObj.msgObj=event.returnValues._message;
+      chatMsgObj.addrObj=event.returnValues._msgAddress;
+
+      //Send a deep copy of the object :
+      chatMsgObj = JSON.parse(JSON.stringify(chatMsgObj));
+      setChatHistory([...chatHistory, chatMsgObj])
+
+      console.log("chatHistory : ", chatHistory);
+    });
+  
+  }
 
 
 //---------------------- HANDLE NEW MESSAGE -------------------------\\
 
   const handleNewMessage = async (newMessage) => {
     setNewMessage(newMessage);
-/*
-    const contract = await new web3.eth.Contract(abi, contractAddress);
-    const accounts = await web3.eth.getAccounts();
- */
+    
+    console.log("handleNewMessage function called");
 
-    console.log("APPEL 3 FOIS");
-    //We call the EVENT here :
-    //await eventSubscription();
+  //get Events :
 
-  //get all Event :
-  contract.events.allEvents()
-  .on('data', (event) => {
-    console.log("resultat des events : ", event);
-    console.log("GROBEL DE MESSAGE : ", event.returnValues._message, "GROBEL DE ADDRESSE : ", event.returnValues._msgAddress);
-  })
-  .on('error', err => {throw Error(err)});
+  try{
+    getEvent();
+
+  } catch(e) {
+    console.log("Cannot call getEvent() : ", e);
+  }
 
 
 //SET NEW MESSAGE
 
-    try {
-      await contract.methods.setmessage(newMessage).send({
-        from: accounts[0]
-      });
-    } catch (e) {
-      console.log("event not emmited : ", e);
-    }
+try {
+  await contract.methods.setmessage(newMessage).send({
+    from: accounts[0]
+  });
+} catch (e) {
+  console.log("event contract.methods.setmessage not emmited : ", e);
+}
 
-  }
+}
 
 
 
@@ -82,15 +98,9 @@ const PressfPage = () => {
   return (
 
     <Layout>
-{/*         <ContractInstance
-          setWeb3={setWeb3}
-          setAccounts={setAccounts}
-          setContract={setContract}
-         /> */}
-
       <ChatBox 
-        //chatMsgLog={chatMsgLog}
-        //messageSender={messageSender}
+        //onNewEvent={getEvent}
+        chatHistory={chatHistory}
       />
       <MesssageBox
         onNewMessage={handleNewMessage}
@@ -104,3 +114,18 @@ const PressfPage = () => {
 
 
 export default PressfPage;
+
+/* poubelle :
+
+-------------------
+  //contract.events.allEvents()
+contract.events.NewMessage()
+  .on('data', (event) => {
+    console.log("resultat des events : ", event);
+    console.log("GROBEL DE MESSAGE : ", event.returnValues._message, "GROBEL DE ADDRESSE : ", event.returnValues._msgAddress);
+  })
+  .on('error', err => {throw Error(err)});
+
+---------------------------
+
+*/

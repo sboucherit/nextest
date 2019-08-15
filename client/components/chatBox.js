@@ -1,9 +1,23 @@
-const ChatBox = (props) => (
+const ChatBox = (props) => {
 
-    <div id="chatBoxStyle">
-        <p>ChatBox</p>
+    //let chatValues = Object.values(props.chatHistory)
+    //let chatValues = Object.keys(props.chatHistory)
 
-    <style jsx>{`
+
+    console.log("ICI CHAT VALUES : ", props.chatHistory, "DEBUT TYPE OG", typeof props.chatHistory, "BETWEEN TYPEOF", typeof props.chatHistory.addrObj);
+
+    /*---------- COMM RETURN :    */
+
+    return (
+        <div id="chatBoxStyle">
+            <h2>PressF feed :</h2>
+                <ul>
+                    {props.chatHistory.map(chatValue => <li>
+                        <ChatValue {...chatValue} />
+                    </li>)}
+                </ul>
+
+            <style jsx>{`
     #chatBoxStyle{
         background-color: #ddd;
   padding: 1rem;
@@ -11,7 +25,11 @@ const ChatBox = (props) => (
   width: 100%;
 }
     `}</style>
-    </div>
-);
+        </div>
+    );
+};
+
+const ChatValue = ({ addrObj, msgObj }) => 
+    <span>Sender : {addrObj} <br/>Message : {msgObj}</span>
 
 export default ChatBox;
