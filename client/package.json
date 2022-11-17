@@ -12,7 +12,7 @@
   "dependencies": {
     "@universal-login/sdk": "^0.2.1",
     "express": "^4.17.1",
-    "next": "^6.1.2",
+    "next": "^13.0.3",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "web3": "^1.0.0-beta.55"
